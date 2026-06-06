@@ -335,7 +335,7 @@ export function Projects() {
                   className="mt-3 flex items-center gap-1 text-xs font-medium text-secondary hover:text-primary transition-colors"
                 >
                   {expandedProject === project.title ? (
-                    <><ChevronDown className="size-3" /> Show details</>
+                    <><ChevronDown className="size-3" /> Details</>
                   ) : (
                     <><ChevronRight className="size-3" /> View key contributions</>
                   )}
