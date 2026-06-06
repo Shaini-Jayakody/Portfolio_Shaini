@@ -51,10 +51,10 @@ function Index() {
           <Navbar theme={theme} toggleTheme={() => setTheme(t => (t === "dark" ? "light" : "dark"))} />
           <Hero />
           <About />
-          <Skills />
           <Projects />
-          <Experience />
+          <Skills />
           <Achievements />
+          <Experience />
           <Contact />
           <Footer />
         </main>

@@ -8,10 +8,10 @@ import {
 
 const links = [
   { id: "about", label: "About", icon: User },
-  { id: "skills", label: "Skills", icon: Code2 },
   { id: "projects", label: "Projects", icon: FolderGit2 },
-  { id: "experience", label: "Experience", icon: Briefcase },
+  { id: "skills", label: "Skills", icon: Code2 },
   { id: "achievements", label: "Achievements", icon: Award },
+   { id: "experience", label: "Experience", icon: Briefcase },
   { id: "contact", label: "Contact", icon: Mail },
 ];
 

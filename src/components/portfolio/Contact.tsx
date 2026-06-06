@@ -74,7 +74,7 @@ export function Contact() {
           <ul className="mt-6 space-y-3 text-sm">
             {[
               { icon: Mail, label: "shainijayakody8@gmail.com", href: "mailto:shainijayakody8@gmail.com" },
-              { icon: Linkedin, label: "linkedin.com/in/shaini-jayakody-6a9197377", href: "https://www.linkedin.com/in/shaini-jayakody-6a9197377" },
+              { icon: Linkedin, label: "linkedin.com/in/shaini-jayakody", href: "https://www.linkedin.com/in/shaini-jayakody-6a9197377" },
               { icon: Github, label: "github.com/Shaini-Jayakody", href: "https://github.com/Shaini-Jayakody" },
             ].map(l => (
               <li key={l.label}>

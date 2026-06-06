@@ -11,7 +11,7 @@ const ROLES = [
 
 export function Experience() {
   return (
-    <Section id="experience" eyebrow="Experience" title="A timeline through space" subtitle="Stops along the way.">
+    <Section id="leadership" eyebrow="Leadership And Activities" title="A timeline through space" subtitle="Stops along the way.">
       <div className="relative mx-auto max-w-4xl">
         <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-primary via-primary/30 to-transparent md:left-1/2" aria-hidden />
         <ul className="space-y-10">
