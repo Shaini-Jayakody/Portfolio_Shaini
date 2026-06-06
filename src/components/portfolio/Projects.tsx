@@ -109,17 +109,16 @@ const PROJECTS: Project[] = [
     title: "Shaini Jayakody", 
     desc: "Portfolio Website", 
     detailedDesc: [
-    "Dynamic project filtering system with category (Web/Mobile/UI/UX) and technology stack (MERN/Spring Boot) filters",
-     "Interactive project cards with expandable details, tech stack badges, live demos, and smooth animations",
-     "Animated constellation-style loader with particle effects and theme-aware navigation with active section highlighting",
-     "Fully responsive design with dark/light mode toggle, glassmorphism effects, and mobile-first architecture"
+      "Dynamic project filtering system with category (Web/Mobile/UI/UX) and technology stack (MERN/Spring Boot) filters",
+      "Interactive project cards with expandable details, tech stack badges, live demos, and smooth animations",
+      "Animated constellation-style loader with particle effects and theme-aware navigation with active section highlighting",
+      "Fully responsive design with dark/light mode toggle, glassmorphism effects, and mobile-first architecture"
     ],
     tags: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Lucide React", "Cloudinary", "Dynamic Filtering", "Animated UI", "Custom Hooks"], 
     category: "Web",
     techStack: "Other",
     gradient: "from-cyan-400/40 to-emerald-400/40", 
-    github: "https://github.com/shaini-jayakody/portfolio", 
-    liveSite: "https://shaini-jayakody.vercel.app",
+    github: "https://github.com/Shaini-Jayakody/Portfolio_Shaini.git", 
     image: "https://res.cloudinary.com/dwona3xzj/image/upload/v1780763567/uzduesuxod7yv4fgekmg.png"
   },
 
@@ -289,9 +288,11 @@ export function Projects() {
               whileHover={{ y: -8 }}
               className="group relative overflow-hidden rounded-2xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5"
             >
-              {/* Project Image - Mobile/UIUX projects use full image like StellaRise */}
-              <div className={`relative overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 ${
-                isMobileOrUIUX ? 'h-64 md:h-72 flex items-center justify-center bg-gray-900' : 'h-48 md:h-52'
+              {/* Project Image - Transparent background for mobile/UIUX projects */}
+              <div className={`relative overflow-hidden ${
+                isMobileOrUIUX 
+                  ? 'h-64 md:h-72 flex items-center justify-center bg-transparent' 
+                  : 'h-48 md:h-52 bg-gradient-to-br from-gray-900 to-gray-800'
               }`}>
                 <img 
                   src={project.image} 
@@ -312,9 +313,13 @@ export function Projects() {
                   </div>
                 )}
                 
-                <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                  isMobileOrUIUX ? 'bg-gradient-to-b from-black/20 via-transparent to-black/60' : ''
-                }`} />
+                {/* Subtle gradient overlay on hover - transparent for mobile/UIUX */}
+                {!isMobileOrUIUX && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                )}
+                {isMobileOrUIUX && (
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                )}
               </div>
               
               <div className="p-5 md:p-6">

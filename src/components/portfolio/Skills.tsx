@@ -6,20 +6,20 @@ type Skill = { name: string; level: number };
 type Cat = { id: string; label: string; skills: Skill[] };
 
 const CATS: Cat[] = [
-  { id: "languages", label: "Programming Languages", skills: [
+  { id: "languages", label: "Languages", skills: [
     { name: "JavaScript", level: 94 }, { name: "TypeScript", level: 85 },
     { name: "Python", level: 90 }, { name: "Java", level: 92 },
     { name: "Kotlin", level: 90 }, { name: "PHP", level: 95 },
     { name: "C++", level: 97 }, { name: "C", level: 94 },
     { name: "R", level: 80 },
   ]},
-  { id: "frontend", label: "Frontend Development", skills: [
+  { id: "frontend", label: "Frontend", skills: [
     { name: "React", level: 95 }, { name: "Next.js", level: 88 },
     { name: "TypeScript", level: 92 }, { name: "Tailwind CSS", level: 94 },
     { name: "HTML5", level: 100 }, { name: "CSS3", level: 98 },
     { name: "Framer Motion", level: 90 },
   ]},
-  { id: "backend", label: "Backend Development", skills: [
+  { id: "backend", label: "Backend", skills: [
     { name: "Node.js", level: 90 }, { name: "Express.js", level: 90 },
     { name: "Spring Boot", level: 80 }, { name: "Python", level: 88 },
     { name: "REST APIs", level: 92 },
@@ -62,7 +62,7 @@ export function Skills() {
   });
 
   return (
-    <Section id="skills" eyebrow="Technical Arsenal" title="My constellation of craft" subtitle="A map of the technologies I navigate by.">
+    <Section id="skills" eyebrow="Skills" title="My constellation of craft" subtitle="A map of the technologies I navigate by.">
       {/* Category Filters */}
       <div className="mb-10 flex flex-wrap justify-center gap-2">
         {CATS.map(cat => (
