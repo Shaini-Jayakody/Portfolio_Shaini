@@ -3,13 +3,13 @@ import { Briefcase } from "lucide-react";
 import { Section } from "./Section";
 
 const ROLES = [
-  { period: "2024 — Present", role: "Senior Software Engineer", company: "Nebula Labs", desc: "Leading the platform team building AI-native developer tooling used by 50k+ engineers." },
-  { period: "2022 — 2024", role: "Software Engineer", company: "Stripe", desc: "Shipped payment optimization features that lifted authorization rates by 3.2% globally." },
-  { period: "2020 — 2022", role: "Full-Stack Engineer", company: "Airbnb", desc: "Rebuilt the host onboarding funnel; +18% activation, +9% retention." },
-  { period: "2019 — 2020", role: "Software Engineer Intern", company: "Google", desc: "Worked on ML ranking infrastructure for Search." },
+  { period: "2022 - 2024", role: "President",   Society: "Prathiba Youth Club", desc: "Oversaw club operations, organized community programs, and guided members in planning and executing events." },
+  { period: "2017-2019", role: "Secretary", Society: "Astrological Society", desc: "Organized meetings and events, maintained society records, and supported communication and coordination among members." },
+  { period: "2016- 2017", role: "Organizer", Society: "Road Safety team", desc: "Organized awareness campaigns and events focused on promoting road safety and responsible behavior in the community."},
+  { period: "2016 — 2017", role: "Treasurer", Society: "Saukyadhana Society", desc: "Managed society funds, maintained financial records, and assisted in budgeting for events and activities." },
 ];
 
-export function Experience() {
+export function Leadership() {
   return (
     <Section id="leadership" eyebrow="Leadership And Activities" title="A timeline through space" subtitle="Stops along the way.">
       <div className="relative mx-auto max-w-4xl">
@@ -31,7 +31,7 @@ export function Experience() {
                     <Briefcase className="size-3.5" />{r.period}
                   </div>
                   <h3 className="text-lg font-semibold">{r.role}</h3>
-                  <p className="text-sm text-muted-foreground">{r.company}</p>
+                  <p className="text-sm text-muted-foreground">{r.Society}</p>
                   <p className="mt-2 text-sm text-muted-foreground/90">{r.desc}</p>
                 </div>
               </div>
