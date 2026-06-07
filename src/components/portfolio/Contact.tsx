@@ -131,7 +131,9 @@ export function Contact() {
               value={form.message}
               onChange={e => setForm(s => ({ ...s, message: e.target.value }))}
               disabled={status === "loading"}
-              className="mt-2 w-full resize-none rounded-2xl border border-primary/20 bg-background/40 px-4 py-3 text-sm outline-none transition-colors focus:border-primary disabled:opacity-50"
+              className={`mt-2 w-full resize-none rounded-2xl border bg-card/50 px-4 py-3 text-sm text-foreground outline-none transition-all focus:border-primary focus:ring-1 focus:ring-primary disabled:opacity-50 ${
+                errors.message ? 'border-destructive focus:border-destructive' : 'border-primary/20'
+              }`}
               placeholder="Tell me about your project, role or idea…"
             />
             {errors.message && <p className="mt-1 text-xs text-destructive">{errors.message}</p>}
@@ -220,7 +222,7 @@ function Field({
         value={value}
         onChange={e => onChange(e.target.value)}
         disabled={disabled}
-        className={`mt-2 w-full rounded-2xl border bg-background/40 px-4 py-3 text-sm outline-none transition-colors focus:border-primary disabled:opacity-50 ${
+        className={`mt-2 w-full rounded-2xl border bg-card/50 px-4 py-3 text-sm text-foreground outline-none transition-all focus:border-primary focus:ring-1 focus:ring-primary disabled:opacity-50 ${
           error ? 'border-destructive focus:border-destructive' : 'border-primary/20'
         }`}
       />
