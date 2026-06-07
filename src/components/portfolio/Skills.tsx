@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Section } from "./Section";
 
 type Skill = { name: string; level: number };
@@ -30,11 +30,11 @@ const CATS: Cat[] = [
   ]},
   { id: "cloud", label: "Cloud & DevOps", skills: [
     { name: "AWS", level: 88 }, { name: "Docker", level: 90 },
-    { name: "Kubernetes", level: 82 }, { name: "CI/CD Pipelines", level: 86 },
+    { name: "Kubernetes", level: 82 }, { name: "CI/CD", level: 86 },
     { name: "Git", level: 98 },
   ]},
   { id: "tools", label: "Tools & IDEs", skills: [
-    { name: "VS Code", level: 95 }, { name: "IntelliJ IDEA", level: 80 },
+    { name: "VS Code", level: 95 }, { name: "IntelliJ", level: 80 },
     { name: "Android Studio", level: 90 }, { name: "Postman", level: 98 },
     { name: "Figma", level: 85 }, { name: "Git", level: 98 },
     { name: "Docker", level: 75 }, { name: "Eclipse", level: 98 },
@@ -45,39 +45,47 @@ const CATS: Cat[] = [
 export function Skills() {
   const [active, setActive] = useState<string>(CATS[0].id);
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
+  const [dimensions, setDimensions] = useState({ width: 800, height: 500 });
   const activeCat = CATS.find(c => c.id === active)!;
 
-  // Responsive center and radius based on container size
-  const getResponsiveCenter = () => {
-    if (typeof window !== 'undefined') {
-      const width = window.innerWidth;
-      if (width < 640) return { x: 200, y: 200 }; // Mobile
-      if (width < 1024) return { x: 300, y: 250 }; // Tablet
-    }
-    return { x: 400, y: 250 }; // Desktop
-  };
-
-  const getResponsiveRadius = (skillCount: number) => {
-    if (typeof window !== 'undefined') {
+  useEffect(() => {
+    const updateDimensions = () => {
       const width = window.innerWidth;
       if (width < 640) {
-        if (skillCount <= 6) return 120;
-        if (skillCount <= 9) return 100;
-        return 90;
+        setDimensions({ width: 380, height: 380 });
+      } else if (width < 768) {
+        setDimensions({ width: 500, height: 450 });
+      } else if (width < 1024) {
+        setDimensions({ width: 700, height: 480 });
+      } else {
+        setDimensions({ width: 800, height: 500 });
       }
-      if (width < 1024) {
-        if (skillCount <= 6) return 160;
-        if (skillCount <= 9) return 140;
-        return 130;
-      }
-    }
-    if (skillCount <= 6) return 200;
-    if (skillCount <= 9) return 180;
-    return 160;
-  };
+    };
 
-  const center = getResponsiveCenter();
-  const radius = getResponsiveRadius(activeCat.skills.length);
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
+
+  // Calculate responsive center and radius
+  const center = {
+    x: dimensions.width / 2,
+    y: dimensions.height / 2
+  };
+  
+  const getRadius = () => {
+    const skillCount = activeCat.skills.length;
+    const minDimension = Math.min(dimensions.width, dimensions.height);
+    
+    if (dimensions.width < 640) {
+      return minDimension * 0.35;
+    } else if (dimensions.width < 768) {
+      return minDimension * 0.38;
+    }
+    return minDimension * 0.4;
+  };
+  
+  const radius = getRadius();
   
   const nodes = activeCat.skills.map((skill, i) => {
     const angle = (i / activeCat.skills.length) * Math.PI * 2 - Math.PI / 2;
@@ -89,36 +97,28 @@ export function Skills() {
     };
   });
 
-  // Responsive viewBox
-  const getViewBox = () => {
-    if (typeof window !== 'undefined') {
-      const width = window.innerWidth;
-      if (width < 640) return "0 0 400 400";
-      if (width < 1024) return "0 0 600 500";
-    }
-    return "0 0 800 500";
-  };
-
   return (
     <Section id="skills" eyebrow="Skills" title="My constellation of craft" subtitle="A map of the technologies I navigate by.">
-      {/* Category Filters - Reduced bottom margin */}
-      <div className="mb-6 flex flex-wrap justify-center gap-2">
-        {CATS.map(cat => (
-          <button
-            key={cat.id}
-            onClick={() => setActive(cat.id)}
-            className={`rounded-full border px-4 py-1.5 text-xs sm:px-5 sm:py-2.5 sm:text-sm font-medium transition-all duration-300 ${
-              active === cat.id
-                ? "border-primary bg-primary text-primary-foreground shadow-lg scale-105"
-                : "border-primary/20 bg-primary/5 text-muted-foreground hover:bg-primary/10 hover:text-foreground"
-            }`}
-          >
-            {cat.label}
-          </button>
-        ))}
+      {/* Category Filters - Scrollable on mobile */}
+      <div className="mb-6 overflow-x-auto pb-2">
+        <div className="flex min-w-max justify-center gap-2 px-4">
+          {CATS.map(cat => (
+            <button
+              key={cat.id}
+              onClick={() => setActive(cat.id)}
+              className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-300 whitespace-nowrap ${
+                active === cat.id
+                  ? "border-primary bg-primary text-primary-foreground shadow-lg"
+                  : "border-primary/20 bg-primary/5 text-muted-foreground hover:bg-primary/10 hover:text-foreground"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Network Visualization - No gaps, responsive */}
+      {/* Network Visualization - Responsive */}
       <AnimatePresence mode="wait">
         <motion.div
           key={active}
@@ -126,10 +126,14 @@ export function Skills() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="relative flex justify-center -mt-4 sm:mt-0"
+          className="relative flex justify-center"
         >
-          <div className="relative w-full">
-            <svg viewBox={getViewBox()} className="w-full h-auto">
+          <div className="relative w-full max-w-full">
+            <svg 
+              viewBox={`0 0 ${dimensions.width} ${dimensions.height}`} 
+              className="w-full h-auto"
+              style={{ aspectRatio: `${dimensions.width}/${dimensions.height}` }}
+            >
               <defs>
                 <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
                   <stop offset="0%" stopColor="oklch(0.7 0.16 265 / 30%)" />
@@ -153,9 +157,9 @@ export function Skills() {
                   x2={node.x}
                   y2={node.y}
                   stroke="url(#lineGrad)"
-                  strokeWidth="1.5"
+                  strokeWidth={dimensions.width < 640 ? "1" : "1.5"}
                   strokeOpacity="0.4"
-                  strokeDasharray="6 4"
+                  strokeDasharray="4 3"
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
                   transition={{ duration: 0.6, delay: i * 0.03 }}
@@ -172,7 +176,7 @@ export function Skills() {
                     x2={b.x}
                     y2={b.y}
                     stroke="oklch(0.7 0.16 265 / 15%)"
-                    strokeWidth="0.8"
+                    strokeWidth={dimensions.width < 640 ? "0.5" : "0.8"}
                   />
                 ))
               )}
@@ -181,23 +185,21 @@ export function Skills() {
               <motion.circle
                 cx={center.x}
                 cy={center.y}
-                r="12"
+                r={dimensions.width < 640 ? "8" : "12"}
                 fill="oklch(0.85 0.11 230)"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.5 }}
               />
-              <circle cx={center.x} cy={center.y} r="24" fill="oklch(0.7 0.16 265 / 20%)" />
-              <circle cx={center.x} cy={center.y} r="36" fill="oklch(0.7 0.16 265 / 10%)" />
+              <circle cx={center.x} cy={center.y} r={dimensions.width < 640 ? "16" : "24"} fill="oklch(0.7 0.16 265 / 20%)" />
+              <circle cx={center.x} cy={center.y} r={dimensions.width < 640 ? "24" : "36"} fill="oklch(0.7 0.16 265 / 10%)" />
             </svg>
 
             {/* Skill Nodes */}
             {nodes.map((skill, i) => {
-              // Get responsive node size
-              const getNodeSize = () => {
-                if (typeof window !== 'undefined' && window.innerWidth < 640) return "h-8 w-8";
-                return "h-10 w-10";
-              };
+              const nodeSize = dimensions.width < 640 ? "h-7 w-7" : "h-9 w-9";
+              const fontSize = dimensions.width < 640 ? "text-[10px]" : "text-xs";
+              const labelSize = dimensions.width < 640 ? "text-[9px]" : "text-xs";
               
               return (
                 <motion.div
@@ -209,29 +211,29 @@ export function Skills() {
                   onMouseLeave={() => setHoveredSkill(null)}
                   style={{
                     position: "absolute",
-                    left: `${(skill.x / (typeof window !== 'undefined' && window.innerWidth < 640 ? 400 : 800)) * 100}%`,
-                    top: `${(skill.y / (typeof window !== 'undefined' && window.innerWidth < 640 ? 400 : 500)) * 100}%`,
+                    left: `${(skill.x / dimensions.width) * 100}%`,
+                    top: `${(skill.y / dimensions.height) * 100}%`,
                     transform: "translate(-50%, -50%)",
                   }}
                   className="group"
                 >
                   {/* Node Dot */}
-                  <div className={`relative flex ${getNodeSize()} items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 backdrop-blur-sm border transition-all duration-300 ${
+                  <div className={`relative flex ${nodeSize} items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 backdrop-blur-sm border transition-all duration-300 ${
                     hoveredSkill === skill.name 
                       ? "border-primary shadow-lg shadow-primary/30 scale-110" 
                       : "border-primary/30 group-hover:border-primary/60 group-hover:scale-105"
                   }`}>
-                    <span className="text-xs font-bold text-foreground">
+                    <span className={`${fontSize} font-bold text-foreground`}>
                       {skill.name.charAt(0)}
                     </span>
                   </div>
 
-                  {/* Skill Name - Responsive text size */}
-                  <div className="absolute left-1/2 top-full mt-1 sm:mt-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-card/90 px-1.5 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-xs font-medium backdrop-blur-sm shadow-lg">
+                  {/* Skill Name */}
+                  <div className={`absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap rounded-lg bg-card/90 px-1.5 py-0.5 ${labelSize} font-medium backdrop-blur-sm shadow-lg z-10`}>
                     {skill.name}
                   </div>
 
-                  {/* Progress Bar Popup - Only on hover */}
+                  {/* Progress Bar Popup */}
                   {hoveredSkill === skill.name && (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
@@ -239,13 +241,13 @@ export function Skills() {
                       exit={{ opacity: 0, y: 10 }}
                       className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 whitespace-nowrap z-50"
                     >
-                      <div className="rounded-xl bg-card/95 px-3 py-1.5 sm:px-4 sm:py-2 backdrop-blur-md shadow-xl border border-primary/20">
+                      <div className="rounded-xl bg-card/95 px-2 py-1.5 sm:px-3 sm:py-2 backdrop-blur-md shadow-xl border border-primary/20">
                         <div className="flex flex-col gap-1">
-                          <div className="flex items-center justify-between gap-2 sm:gap-3">
-                            <span className="text-[10px] sm:text-xs text-muted-foreground">Proficiency</span>
-                            <span className="text-xs sm:text-sm font-bold text-primary">{skill.level}%</span>
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-[8px] sm:text-[10px] text-muted-foreground">Proficiency</span>
+                            <span className="text-[10px] sm:text-xs font-bold text-primary">{skill.level}%</span>
                           </div>
-                          <div className="h-1 w-24 sm:w-32 overflow-hidden rounded-full bg-muted">
+                          <div className="h-1 w-16 sm:w-24 overflow-hidden rounded-full bg-muted">
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${skill.level}%` }}
