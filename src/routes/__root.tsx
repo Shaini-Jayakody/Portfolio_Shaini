@@ -9,8 +9,11 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
+import faviconUrl from "../assets/logo.png";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+
+const siteUrl = (import.meta.env.VITE_SITE_URL ?? "https://your-domain.com").replace(/\/$/, "");
 
 function NotFoundComponent() {
   return (
@@ -80,6 +83,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Shining Star — Software Engineer Portfolio" },
       { name: "description", content: "Portfolio of a software engineer crafting modern web, cloud and AI experiences. Explore projects, skills and achievements." },
       { name: "author", content: "Shining Star" },
+      { name: "theme-color", content: "#06111f" },
+      { property: "og:url", content: siteUrl },
       { property: "og:title", content: "Shining Star — Software Engineer Portfolio" },
       { property: "og:description", content: "Portfolio of a software engineer crafting modern web, cloud and AI experiences." },
       { property: "og:type", content: "website" },
@@ -87,6 +92,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      {
+        rel: "icon",
+        href: faviconUrl,
+        type: "image/png",
+      },
+      {
+        rel: "apple-touch-icon",
+        href: faviconUrl,
+      },
+      {
+        rel: "canonical",
+        href: siteUrl,
+      },
       {
         rel: "stylesheet",
         href: appCss,

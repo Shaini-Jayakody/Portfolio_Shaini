@@ -2,7 +2,8 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, useRouter, Link, Outlet, HeadContent, Scripts, createFileRoute, lazyRouteComponent, createRouter } from "@tanstack/react-router";
 import { jsx, jsxs } from "react/jsx-runtime";
 import { useEffect } from "react";
-const appCss = "/assets/styles-DLRrScEX.css";
+const faviconUrl = "/assets/logo-CUFrF9hI.png";
+const appCss = "/assets/styles-BtzFE0jw.css";
 function reportLovableError(error, context = {}) {
   if (typeof window === "undefined") return;
   window.__lovableEvents?.captureException?.(
@@ -19,6 +20,7 @@ function reportLovableError(error, context = {}) {
     }
   );
 }
+const siteUrl = "https://your-domain.com".replace(/\/$/, "");
 function NotFoundComponent() {
   return /* @__PURE__ */ jsx("div", { className: "flex min-h-screen items-center justify-center bg-background px-4", children: /* @__PURE__ */ jsxs("div", { className: "max-w-md text-center", children: [
     /* @__PURE__ */ jsx("h1", { className: "text-7xl font-bold text-foreground", children: "404" }),
@@ -74,6 +76,8 @@ const Route$1 = createRootRouteWithContext()({
       { title: "Shining Star — Software Engineer Portfolio" },
       { name: "description", content: "Portfolio of a software engineer crafting modern web, cloud and AI experiences. Explore projects, skills and achievements." },
       { name: "author", content: "Shining Star" },
+      { name: "theme-color", content: "#06111f" },
+      { property: "og:url", content: siteUrl },
       { property: "og:title", content: "Shining Star — Software Engineer Portfolio" },
       { property: "og:description", content: "Portfolio of a software engineer crafting modern web, cloud and AI experiences." },
       { property: "og:type", content: "website" },
@@ -81,6 +85,19 @@ const Route$1 = createRootRouteWithContext()({
       { name: "twitter:site", content: "@Lovable" }
     ],
     links: [
+      {
+        rel: "icon",
+        href: faviconUrl,
+        type: "image/png"
+      },
+      {
+        rel: "apple-touch-icon",
+        href: faviconUrl
+      },
+      {
+        rel: "canonical",
+        href: siteUrl
+      },
       {
         rel: "stylesheet",
         href: appCss
@@ -105,7 +122,7 @@ function RootComponent() {
   const { queryClient } = Route$1.useRouteContext();
   return /* @__PURE__ */ jsx(QueryClientProvider, { client: queryClient, children: /* @__PURE__ */ jsx(Outlet, {}) });
 }
-const $$splitComponentImporter = () => import("./index-UyBB-iF4.js");
+const $$splitComponentImporter = () => import("./index-Cxz_xCHa.js");
 const Route = createFileRoute("/")({
   head: () => ({
     meta: [{

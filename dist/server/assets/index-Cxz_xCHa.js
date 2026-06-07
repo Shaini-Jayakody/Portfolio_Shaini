@@ -1,14 +1,14 @@
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, FolderGit2, Code2, Award, Briefcase, Mail, Sun, Moon, X, Menu, Rocket, Github, Linkedin, ArrowDown, Compass, Target, GraduationCap, Users, Globe, ExternalLink, Palette, Smartphone, Monitor, Leaf, ChevronDown, ChevronRight, Figma, Play, Trophy, Medal, Star, Layout, Brain, Database, Search, Sparkles, Shield, Zap, Cloud, Network, Bot, Package, Cpu, Code, AlertCircle, Check, Send } from "lucide-react";
+import { User, FolderGit2, Code2, Award, Briefcase, Mail, Sun, Moon, X, Menu, Rocket, Github, Linkedin, ArrowDown, Compass, Target, GraduationCap, Users, Globe, ExternalLink, Palette, Smartphone, Monitor, Leaf, ChevronDown, ChevronRight, Figma, Play, Computer, BookOpen, Languages, School, Trophy, Medal, Star, Layout, Brain, Database, Search, Sparkles, Shield, Zap, Cloud, Network, Bot, Package, Cpu, Code, AlertCircle, Check, Send } from "lucide-react";
 import { z } from "zod";
 const links = [
   { id: "about", label: "About", icon: User },
   { id: "projects", label: "Projects", icon: FolderGit2 },
   { id: "skills", label: "Skills", icon: Code2 },
   { id: "achievements", label: "Achievements", icon: Award },
-  { id: "leadership", label: "Leadership", icon: Briefcase },
+  { id: "journey", label: "Journey", icon: Briefcase },
   { id: "contact", label: "Contact", icon: Mail }
 ];
 function Navbar({ theme, toggleTheme }) {
@@ -334,7 +334,7 @@ function StarsBackground({ density = 0.6 }) {
 const profile = "/assets/Profile-CjTZU_z6.png";
 function Hero() {
   return /* @__PURE__ */ jsxs("section", { id: "hero", className: "relative flex min-h-screen items-center overflow-hidden pt-28", children: [
-    /* @__PURE__ */ jsx(StarsBackground, { density: 1.5 }),
+    /* @__PURE__ */ jsx(StarsBackground, { density: 0.5 }),
     /* @__PURE__ */ jsx("div", { className: "absolute inset-0 grid-cosmic", "aria-hidden": true }),
     /* @__PURE__ */ jsx("div", { className: "absolute left-1/2 top-1/3 size-[600px] -translate-x-1/2 rounded-full bg-primary/10 blur-[120px]", "aria-hidden": true }),
     /* @__PURE__ */ jsxs("div", { className: "relative z-10 mx-auto grid w-full max-w-7xl gap-12 px-4 md:grid-cols-[1.2fr_1fr] md:items-center", children: [
@@ -1175,13 +1175,52 @@ function Projects() {
   ] });
 }
 const ROLES = [
-  { period: "2022 - 2024", role: "President", Society: "Prathiba Youth Club", desc: "Oversaw club operations, organized community programs, and guided members in planning and executing events." },
-  { period: "2017-2019", role: "Secretary", Society: "Astrological Society", desc: "Organized meetings and events, maintained society records, and supported communication and coordination among members." },
-  { period: "2016- 2017", role: "Organizer", Society: "Road Safety team", desc: "Organized awareness campaigns and events focused on promoting road safety and responsible behavior in the community." },
-  { period: "2016 — 2017", role: "Treasurer", Society: "Saukyadhana Society", desc: "Managed society funds, maintained financial records, and assisted in budgeting for events and activities." }
+  {
+    period: "2023 - Present",
+    role: "BSc Honors in Software Engineering",
+    society: "Sri Lanka Institute of Information Technology (SLIIT)",
+    icon: GraduationCap,
+    iconColor: "text-blue-500"
+  },
+  {
+    period: "Present",
+    role: "Diploma in Human Resource Management",
+    society: "LPEC Campus",
+    icon: Award,
+    iconColor: "text-emerald-500"
+  },
+  {
+    period: "2022-2023",
+    role: "Trainee IT Operator",
+    society: "Fine Graphics",
+    icon: Computer,
+    iconColor: "text-purple-500"
+  },
+  {
+    period: "2019-2021",
+    role: "G.C.E. A/L",
+    society: "Pushpadhana Girls' College, Kandy",
+    desc: "Engineering Technology",
+    icon: BookOpen,
+    iconColor: "text-amber-500"
+  },
+  {
+    period: "2019",
+    role: "Diploma in English Language",
+    society: "British Way English Academy",
+    icon: Languages,
+    iconColor: "text-rose-500"
+  },
+  {
+    period: "2018",
+    role: "G.C.E. O/L",
+    society: "Hemamali Girls' College, Kandy",
+    icon: School,
+    iconColor: "text-teal-500"
+  }
 ];
-function Leadership() {
-  return /* @__PURE__ */ jsx(Section, { id: "leadership", eyebrow: "Leadership And Activities", title: "A timeline through space", subtitle: "Stops along the way.", children: /* @__PURE__ */ jsxs("div", { className: "relative mx-auto max-w-4xl", children: [
+function Journey() {
+  return /* @__PURE__ */ jsx(Section, { id: "journey", eyebrow: "Journey", title: "A timeline through space", subtitle: "Stops along the way.", children: /* @__PURE__ */ jsxs("div", { className: "relative mx-auto max-w-4xl", children: [
     /* @__PURE__ */ jsx("div", { className: "absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-primary via-primary/30 to-transparent md:left-1/2", "aria-hidden": true }),
     /* @__PURE__ */ jsx("ul", { className: "space-y-10", children: ROLES.map((r, i) => /* @__PURE__ */ jsx(
       motion.li,
@@ -1193,14 +1232,17 @@ function Leadership() {
         className: `relative md:grid md:grid-cols-2 md:gap-12 ${i % 2 ? "md:[&>div:first-child]:col-start-2" : ""}`,
         children: /* @__PURE__ */ jsxs("div", { className: `pl-12 md:pl-0 ${i % 2 ? "md:pl-12" : "md:pr-12 md:text-right"}`, children: [
           /* @__PURE__ */ jsx("span", { className: "absolute left-2 top-1 size-4 rounded-full border-2 border-background bg-primary glow-primary md:left-1/2 md:-translate-x-1/2" }),
-          /* @__PURE__ */ jsxs("div", { className: "glass rounded-2xl p-5", children: [
+          /* @__PURE__ */ jsxs("div", { className: "glass rounded-2xl p-5 hover:shadow-lg transition-shadow duration-300", children: [
             /* @__PURE__ */ jsxs("div", { className: "mb-2 inline-flex items-center gap-2 text-xs text-secondary", children: [
-              /* @__PURE__ */ jsx(Briefcase, { className: "size-3.5" }),
+              /* @__PURE__ */ jsx(r.icon, { className: `size-3.5 ${r.iconColor}` }),
               r.period
             ] }),
             /* @__PURE__ */ jsx("h3", { className: "text-lg font-semibold", children: r.role }),
-            /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground", children: r.Society }),
-            /* @__PURE__ */ jsx("p", { className: "mt-2 text-sm text-muted-foreground/90", children: r.desc })
+            /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground", children: r.society }),
+            r.desc && /* @__PURE__ */ jsxs("div", { className: "mt-3 flex items-center gap-1.5", children: [
+              /* @__PURE__ */ jsx("div", { className: "h-px flex-1 bg-gradient-to-r from-primary/50 to-transparent" }),
+              /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-foreground/90 italic", children: r.desc })
+            ] })
           ] })
         ] })
       },
@@ -1821,7 +1863,7 @@ function Index() {
         /* @__PURE__ */ jsx(Projects, {}),
         /* @__PURE__ */ jsx(Skills, {}),
         /* @__PURE__ */ jsx(Achievements, {}),
-        /* @__PURE__ */ jsx(Leadership, {}),
+        /* @__PURE__ */ jsx(Journey, {}),
         /* @__PURE__ */ jsx(Contact, {}),
         /* @__PURE__ */ jsx(Footer, {})
       ] })
