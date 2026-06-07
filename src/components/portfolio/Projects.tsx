@@ -153,7 +153,7 @@ const PROJECTS: Project[] = [
     techStack: "Other",
     gradient: "from-amber-500/40 to-orange-500/40", 
     figma: "https://www.figma.com/proto/UYwA6lHyCpEVloLKU4VEpw/Coffee?node-id=0-1&t=drGioGNoubwCf5OO-1",
-    demo: "https://drive.google.com/file/d/1YR1j7Op110q1gv2YcN5hEPMvJ3mJ5p_X/view?usp=drive_link",
+    demo: "https://drive.google.com/file/d/1-zkf6nlNLFrH4Rh7bd1tgp9IezEPgRyy/view?usp=sharing",
     image: "https://res.cloudinary.com/dwona3xzj/image/upload/v1780746766/jog0k2thvpziefft5hs2.png"
   },
 ];
