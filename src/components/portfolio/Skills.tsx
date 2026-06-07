@@ -47,9 +47,37 @@ export function Skills() {
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
   const activeCat = CATS.find(c => c.id === active)!;
 
-  // Network layout configuration
-  const radius = 180;
-  const center = { x: 400, y: 250 };
+  // Responsive center and radius based on container size
+  const getResponsiveCenter = () => {
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      if (width < 640) return { x: 200, y: 200 }; // Mobile
+      if (width < 1024) return { x: 300, y: 250 }; // Tablet
+    }
+    return { x: 400, y: 250 }; // Desktop
+  };
+
+  const getResponsiveRadius = (skillCount: number) => {
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      if (width < 640) {
+        if (skillCount <= 6) return 120;
+        if (skillCount <= 9) return 100;
+        return 90;
+      }
+      if (width < 1024) {
+        if (skillCount <= 6) return 160;
+        if (skillCount <= 9) return 140;
+        return 130;
+      }
+    }
+    if (skillCount <= 6) return 200;
+    if (skillCount <= 9) return 180;
+    return 160;
+  };
+
+  const center = getResponsiveCenter();
+  const radius = getResponsiveRadius(activeCat.skills.length);
   
   const nodes = activeCat.skills.map((skill, i) => {
     const angle = (i / activeCat.skills.length) * Math.PI * 2 - Math.PI / 2;
@@ -61,15 +89,25 @@ export function Skills() {
     };
   });
 
+  // Responsive viewBox
+  const getViewBox = () => {
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      if (width < 640) return "0 0 400 400";
+      if (width < 1024) return "0 0 600 500";
+    }
+    return "0 0 800 500";
+  };
+
   return (
     <Section id="skills" eyebrow="Skills" title="My constellation of craft" subtitle="A map of the technologies I navigate by.">
-      {/* Category Filters */}
-      <div className="mb-10 flex flex-wrap justify-center gap-2">
+      {/* Category Filters - Reduced bottom margin */}
+      <div className="mb-6 flex flex-wrap justify-center gap-2">
         {CATS.map(cat => (
           <button
             key={cat.id}
             onClick={() => setActive(cat.id)}
-            className={`rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-300 ${
+            className={`rounded-full border px-4 py-1.5 text-xs sm:px-5 sm:py-2.5 sm:text-sm font-medium transition-all duration-300 ${
               active === cat.id
                 ? "border-primary bg-primary text-primary-foreground shadow-lg scale-105"
                 : "border-primary/20 bg-primary/5 text-muted-foreground hover:bg-primary/10 hover:text-foreground"
@@ -80,7 +118,7 @@ export function Skills() {
         ))}
       </div>
 
-      {/* Network Visualization */}
+      {/* Network Visualization - No gaps, responsive */}
       <AnimatePresence mode="wait">
         <motion.div
           key={active}
@@ -88,10 +126,10 @@ export function Skills() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="relative mx-auto flex justify-center"
+          className="relative flex justify-center -mt-4 sm:mt-0"
         >
-          <div className="relative w-full max-w-4xl">
-            <svg viewBox="0 0 800 500" className="w-full">
+          <div className="relative w-full">
+            <svg viewBox={getViewBox()} className="w-full h-auto">
               <defs>
                 <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
                   <stop offset="0%" stopColor="oklch(0.7 0.16 265 / 30%)" />
@@ -104,7 +142,7 @@ export function Skills() {
               </defs>
 
               {/* Center glow */}
-              <circle cx={center.x} cy={center.y} r="140" fill="url(#centerGlow)" />
+              <circle cx={center.x} cy={center.y} r={radius * 0.7} fill="url(#centerGlow)" />
 
               {/* Connection lines */}
               {nodes.map((node, i) => (
@@ -143,77 +181,85 @@ export function Skills() {
               <motion.circle
                 cx={center.x}
                 cy={center.y}
-                r="16"
+                r="12"
                 fill="oklch(0.85 0.11 230)"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.5 }}
               />
-              <circle cx={center.x} cy={center.y} r="32" fill="oklch(0.7 0.16 265 / 20%)" />
-              <circle cx={center.x} cy={center.y} r="48" fill="oklch(0.7 0.16 265 / 10%)" />
+              <circle cx={center.x} cy={center.y} r="24" fill="oklch(0.7 0.16 265 / 20%)" />
+              <circle cx={center.x} cy={center.y} r="36" fill="oklch(0.7 0.16 265 / 10%)" />
             </svg>
 
             {/* Skill Nodes */}
-            {nodes.map((skill, i) => (
-              <motion.div
-                key={skill.name}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: 0.2 + i * 0.05 }}
-                onMouseEnter={() => setHoveredSkill(skill.name)}
-                onMouseLeave={() => setHoveredSkill(null)}
-                style={{
-                  position: "absolute",
-                  left: `${(skill.x / 800) * 100}%`,
-                  top: `${(skill.y / 500) * 100}%`,
-                  transform: "translate(-50%, -50%)",
-                }}
-                className="group"
-              >
-                {/* Node Dot */}
-                <div className={`relative flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 backdrop-blur-sm border transition-all duration-300 ${
-                  hoveredSkill === skill.name 
-                    ? "border-primary shadow-lg shadow-primary/30 scale-110" 
-                    : "border-primary/30 group-hover:border-primary/60 group-hover:scale-105"
-                }`}>
-                  <span className="text-xs font-bold text-foreground">
-                    {skill.name.charAt(0)}
-                  </span>
-                </div>
+            {nodes.map((skill, i) => {
+              // Get responsive node size
+              const getNodeSize = () => {
+                if (typeof window !== 'undefined' && window.innerWidth < 640) return "h-8 w-8";
+                return "h-10 w-10";
+              };
+              
+              return (
+                <motion.div
+                  key={skill.name}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: 0.2 + i * 0.05 }}
+                  onMouseEnter={() => setHoveredSkill(skill.name)}
+                  onMouseLeave={() => setHoveredSkill(null)}
+                  style={{
+                    position: "absolute",
+                    left: `${(skill.x / (typeof window !== 'undefined' && window.innerWidth < 640 ? 400 : 800)) * 100}%`,
+                    top: `${(skill.y / (typeof window !== 'undefined' && window.innerWidth < 640 ? 400 : 500)) * 100}%`,
+                    transform: "translate(-50%, -50%)",
+                  }}
+                  className="group"
+                >
+                  {/* Node Dot */}
+                  <div className={`relative flex ${getNodeSize()} items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 backdrop-blur-sm border transition-all duration-300 ${
+                    hoveredSkill === skill.name 
+                      ? "border-primary shadow-lg shadow-primary/30 scale-110" 
+                      : "border-primary/30 group-hover:border-primary/60 group-hover:scale-105"
+                  }`}>
+                    <span className="text-xs font-bold text-foreground">
+                      {skill.name.charAt(0)}
+                    </span>
+                  </div>
 
-                {/* Skill Name - Always visible */}
-                <div className="absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-card/90 px-2.5 py-1 text-xs font-medium backdrop-blur-sm shadow-lg">
-                  {skill.name}
-                </div>
+                  {/* Skill Name - Responsive text size */}
+                  <div className="absolute left-1/2 top-full mt-1 sm:mt-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-card/90 px-1.5 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-xs font-medium backdrop-blur-sm shadow-lg">
+                    {skill.name}
+                  </div>
 
-                {/* Progress Bar Popup - Only on hover */}
-                {hoveredSkill === skill.name && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 whitespace-nowrap"
-                  >
-                    <div className="rounded-xl bg-card/95 px-4 py-2 backdrop-blur-md shadow-xl border border-primary/20">
-                      <div className="flex flex-col gap-1.5">
-                        <div className="flex items-center justify-between gap-3">
-                          <span className="text-xs text-muted-foreground">Proficiency</span>
-                          <span className="text-sm font-bold text-primary">{skill.level}%</span>
-                        </div>
-                        <div className="h-1.5 w-32 overflow-hidden rounded-full bg-muted">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${skill.level}%` }}
-                            transition={{ duration: 0.5 }}
-                            className="h-full rounded-full bg-gradient-to-r from-primary to-secondary"
-                          />
+                  {/* Progress Bar Popup - Only on hover */}
+                  {hoveredSkill === skill.name && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 whitespace-nowrap z-50"
+                    >
+                      <div className="rounded-xl bg-card/95 px-3 py-1.5 sm:px-4 sm:py-2 backdrop-blur-md shadow-xl border border-primary/20">
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center justify-between gap-2 sm:gap-3">
+                            <span className="text-[10px] sm:text-xs text-muted-foreground">Proficiency</span>
+                            <span className="text-xs sm:text-sm font-bold text-primary">{skill.level}%</span>
+                          </div>
+                          <div className="h-1 w-24 sm:w-32 overflow-hidden rounded-full bg-muted">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${skill.level}%` }}
+                              transition={{ duration: 0.5 }}
+                              className="h-full rounded-full bg-gradient-to-r from-primary to-secondary"
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </motion.div>
-                )}
-              </motion.div>
-            ))}
+                    </motion.div>
+                  )}
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
       </AnimatePresence>
