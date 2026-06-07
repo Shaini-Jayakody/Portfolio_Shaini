@@ -11,7 +11,7 @@ const links = [
   { id: "projects", label: "Projects", icon: FolderGit2 },
   { id: "skills", label: "Skills", icon: Code2 },
   { id: "achievements", label: "Achievements", icon: Award },
-   { id: "leadership", label: "Leadership", icon: Briefcase },
+   { id: "journey", label: "Journey", icon: Briefcase },
   { id: "contact", label: "Contact", icon: Mail },
 ];
 
