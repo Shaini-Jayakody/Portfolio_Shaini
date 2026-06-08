@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail, Rocket } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail, Rocket, Download } from "lucide-react";
 import { StarsBackground } from "./StarsBackground";
 import profile from "@/assets/Profile.png";
 
@@ -59,12 +59,15 @@ export function Hero() {
               <Rocket className="size-4 transition-transform group-hover:-rotate-12" />
               View Projects
             </button>
-            <button
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+            
+            <a
+              href="/cv/Shaini_Jayakody_CV.pdf"
+              download="Shaini_Jayakody_CV.pdf"
               className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/5 px-6 py-3 text-sm font-medium text-foreground transition-all hover:bg-primary/15"
             >
-              <Mail className="size-4" /> Contact Me
-            </button>
+              <Download className="size-4" />
+              Download CV
+            </a>
           </motion.div>
 
           <motion.div
@@ -73,9 +76,15 @@ export function Hero() {
             transition={{ delay: 0.6, duration: 0.6 }}
             className="mt-8 flex items-center gap-4 text-muted-foreground"
           >
-            <a href="https://github.com/Shaini-Jayakody" target="_blank" rel="noreferrer" aria-label="GitHub" className="transition-colors hover:text-secondary"><Github className="size-5" /></a>
-            <a href="https://www.linkedin.com/in/shaini-jayakody-6a9197377" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="transition-colors hover:text-secondary"><Linkedin className="size-5" /></a>
-            <a href="mailto:shainijayakody8@gmail.com" aria-label="Email" className="transition-colors hover:text-secondary"><Mail className="size-5" /></a>
+            <a href="https://github.com/Shaini-Jayakody" target="_blank" rel="noreferrer" aria-label="GitHub" className="transition-colors hover:text-secondary">
+              <Github className="size-5" />
+            </a>
+            <a href="https://www.linkedin.com/in/shaini-jayakody-6a9197377" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="transition-colors hover:text-secondary">
+              <Linkedin className="size-5" />
+            </a>
+            <a href="mailto:shainijayakody8@gmail.com" aria-label="Email" className="transition-colors hover:text-secondary">
+              <Mail className="size-5" />
+            </a>
           </motion.div>
         </div>
 
