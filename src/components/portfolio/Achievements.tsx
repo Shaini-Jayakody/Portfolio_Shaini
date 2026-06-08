@@ -190,13 +190,19 @@ export function Achievements() {
             key={it.title}
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
-            whileHover={{ y: -5, scale: 1.02 }}
-            className="group relative overflow-hidden rounded-2xl glass p-5 transition-all duration-300 hover:shadow-xl hover:border-primary/30"
+            whileHover={{ y: -6, rotate: -0.4 }}
+            className="group relative overflow-hidden rounded-2xl glass p-5 transition-all duration-300 hover:border-primary/50 hover:shadow-[0_15px_40px_rgba(30,144,255,0.3)]"
           >
+            {/* Glow Effect - Top Right Corner (like Certifications) */}
+            <div 
+              className="pointer-events-none absolute right-0 top-0 size-24 opacity-30 transition-opacity group-hover:opacity-60"
+              style={{ background: "radial-gradient(circle at 100% 0%, rgba(30,144,255,0.6), transparent 60%)" }}
+            />
+
             {/* Type Badge */}
-            <div className={`absolute top-3 right-3 rounded-full px-2.5 py-1 text-[10px] font-medium backdrop-blur-sm flex items-center gap-1 ${
+            <div className={`absolute top-3 right-3 z-10 rounded-full px-2.5 py-1 text-[10px] font-medium backdrop-blur-sm flex items-center gap-1 ${
               it.type === "certification" 
                 ? "bg-blue-500/20 text-blue-400 border border-blue-500/30" 
                 : "bg-purple-500/20 text-purple-400 border border-purple-500/30"
@@ -205,18 +211,20 @@ export function Achievements() {
               {it.type === "certification" ? "Certification" : "Badge"}
             </div>
 
-            {/* Icon */}
+            {/* Icon with glow on hover */}
             <div className="relative mb-4 inline-flex">
-              <div className="absolute inset-0 rounded-full bg-primary/20 blur-xl transition-all group-hover:bg-primary/40" />
-              <div className="relative grid size-14 place-items-center rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 ring-1 ring-primary/40">
-                <it.icon className="size-6 text-secondary" />
+              <div className="absolute inset-0 rounded-full bg-primary/20 blur-xl transition-all duration-500 group-hover:bg-primary/40 group-hover:scale-150" />
+              <div className="relative grid size-14 place-items-center rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 ring-1 ring-primary/40 transition-all duration-300 group-hover:scale-110 group-hover:ring-primary">
+                <it.icon className="size-6 text-secondary transition-all duration-300 group-hover:scale-110" />
               </div>
             </div>
 
             {/* Title and Year */}
             <div className="flex items-baseline justify-between gap-2 flex-wrap">
-              <h3 className="font-semibold text-foreground text-base">{it.title}</h3>
-              <span className="text-xs text-secondary whitespace-nowrap bg-secondary/10 px-2 py-0.5 rounded-full">
+              <h3 className="font-semibold text-foreground text-base transition-colors duration-300 group-hover:text-secondary">
+                {it.title}
+              </h3>
+              <span className="text-xs text-secondary whitespace-nowrap bg-secondary/10 px-2 py-0.5 rounded-full transition-all duration-300 group-hover:bg-secondary/20 group-hover:scale-105">
                 {it.year}
               </span>
             </div>
@@ -227,7 +235,7 @@ export function Achievements() {
             {/* Skills Tags */}
             <div className="mt-3 flex flex-wrap gap-1.5">
               {it.skills.map(skill => (
-                <span key={skill} className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-secondary">
+                <span key={skill} className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-secondary transition-all duration-300 group-hover:bg-primary/20">
                   {getSkillIcon(skill)}
                   {skill}
                 </span>
@@ -237,14 +245,14 @@ export function Achievements() {
             {/* Credential ID */}
             {it.credentialId && (
               <div className="mt-3 pt-2 border-t border-border/30">
-                <span className="text-[10px] text-muted-foreground/60 font-mono">
+                <span className="text-[10px] text-muted-foreground/60 font-mono transition-colors duration-300 group-hover:text-muted-foreground/80">
                   ID: {it.credentialId}
                 </span>
               </div>
             )}
 
             {/* Hover Effect Overlay */}
-            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-transparent transition-all duration-300 group-hover:ring-primary/20" />
+            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-transparent transition-all duration-300 group-hover:ring-primary/40" />
           </motion.div>
         ))}
       </div>
